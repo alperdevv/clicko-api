@@ -12,4 +12,15 @@ export default defineConfig({
         tailwindcss(),
         vue(),
     ],
+
+    server: {
+        host: '0.0.0.0',
+        watch: {
+            usePolling: true, 
+        },
+        port: 5173,
+        hmr: {
+            host: 'localhost'
+        }
+    },
 });
