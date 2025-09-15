@@ -13,7 +13,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::all();
+        $users = User::all();
+
+        return response()->json([
+            'data' => $users,
+            'status' => 200
+        ]);
     }
 
     /**
@@ -21,7 +26,27 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        request()->validate([
+            'name' => ['required', 'min:3', 'max:255'], 
+            'email' => ['required', 'email', 'unique:users,email', 'min:6', 'max:255'],
+            'password' => ['required', 'min:6', 'max:255'],
+        ]);
+
+        $user = User::create([
+            'name' => request('name'),
+            'email' => request('email'),
+            'role_id' => 2,
+            'password' => bcrypt(request('password')),
+        ]);
+
+
+        return response()->json([
+        'message' => 'User created sucessfully',
+        'data' => $user,
+        'status' => 201
+        ]);
+
     }
 
     /**
@@ -29,9 +54,13 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
 
-        return response()->json($user);
+        return response()->json([
+            'data' => $user,
+            'status' => 200
+        ]);
+
     }
 
     /**
@@ -39,7 +68,26 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'min:3', 'max:255'], 
+            'email' => ['required', 'email', 'unique:users,email,'.$id.',id|min:6|max:255'],
+            'password' => ['required', 'min:6', 'max:255'],
+        ]);
+    
+        $user = User::findOrFail($id);
+        
+        $data = $request->all();
+        if (isset($data['password'])) {
+            $data['password'] = bcrypt($data['password']);
+        }
+        
+        $user->update($data);
+    
+        return response()->json([
+            'message' => 'User updated successfully',
+            'data' => $user,
+            'status' => 200
+        ]);
     }
 
     /**
@@ -47,7 +95,14 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return response()->json([
+            'message' => 'User deleted successfully',
+        ], 204);
+
+
     }
 
     public function topDomains()
