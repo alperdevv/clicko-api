@@ -88,7 +88,7 @@
           this.success = 'Login successful! Redirecting...';
           
           setTimeout(() => {
-            this.$router.push('/users');
+            this.$router.push('/userslist');
           }, 1000);
           
         } catch (error) {

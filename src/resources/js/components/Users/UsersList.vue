@@ -8,8 +8,15 @@
         >
           Add User
         </router-link>
+        <button 
+          @click="logout"
+          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Logout
+        </button>
       </div>
   
+      
 
       <div v-if="loading" class="text-center py-4">
         <span class="text-gray-500">Loading users...</span>
@@ -139,6 +146,20 @@
           }
         } finally {
           this.loading = false;
+        }
+      },
+
+      async logout () {
+        try {
+          const token = localStorage.getItem('token');
+          await axios.post('/api/logout', {}, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          this.$router.push('/login');
+        } catch (error) {
+          this.error = error.response?.data?.message || 'Logout failed';
         }
       },
       confirmDelete(user) {
