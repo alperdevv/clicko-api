@@ -60,6 +60,12 @@ De esta manera, se crearán y levantarán los siguientes contenedores para el en
 
 <br>
 
+Recuerda que puedes listarlos (para comprobar que se han levantado correctamente) con el siguiente comando:
+
+```bash
+$ docker ps
+```
+
 ### Instalación y configuración de Laravel
 
 Dentro del contenedor de PHP, instalamos las dependencias de Laravel:
