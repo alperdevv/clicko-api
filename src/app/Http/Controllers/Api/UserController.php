@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -12,7 +13,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        return User::all();
     }
 
     /**
@@ -28,7 +29,9 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = User::find($id);
+
+        return response()->json($user);
     }
 
     /**
@@ -45,5 +48,18 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function topDomains()
+    {
+        $domains = User::pluck('email')
+        ->map(function ($email) {
+            return explode('@', $email)[1];
+        })
+        ->countBy()
+        ->sortDesc()
+        ->take(3);
+    
+        return response()->json($domains);
     }
 }
