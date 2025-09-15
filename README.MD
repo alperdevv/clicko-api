@@ -50,7 +50,7 @@ En segundo lugar, construimos y ejecutamos el entorno Docker:
 $ docker-compose up -d --build
 ```
 
-De esta manera, se creararán y levantarán los siguientes contenedores para el entorno de desarrollo:
+De esta manera, se crearán y levantarán los siguientes contenedores para el entorno de desarrollo:
 
 - `laravelphp`: Contenedor de PHP con Laravel
 - `laravelmysql`: Contenedor de MySQL para la base de datos
@@ -108,8 +108,29 @@ De esta manera, generaremos 20 usuarios con datos aleatorios, además del usuari
 
 <br>
 
+## Preparación del Frontend
 
-### Postman
+Dentro del contenedor de Node.js, ejecutamos los siguientes comandos:
+
+```bash
+$ docker exec -it laravelnode npm install
+$ docker exec -it laravelnode npm run build
+```
+
+De esta manera, el frontend ya está listo para ser utilizado en el siguiente enlace (http://localhost:8080)
+
+<br>
+
+### Explicación de la interfaz gráfica
+
+La interfaz gráfica es relativamente sencilla, donde en primer lugar necesitaremos iniciar sesión para generar el token correspondiente. 
+
+Posteriormente, nos redireccionará al listado de usuarios, donde podremos ver todos los usuarios que se han creado previamente.
+
+En esta interfaz, podremos interactuar de igual manera con los métodos previamente mencionados (Crear, Leer, Actualizar y Eliminar).
+
+
+## Postman
 
 Para facilitar el uso y el testing de la API, se proporcionan los siguientes archivos de configuración para Postman:
 
@@ -127,10 +148,131 @@ Por defecto, la URL base configurada de la API es `http://localhost:8080/api`, r
 
 <br>
 
+### Autenticación
+
+Para poder interactuar con la API, es necesario autenticarse previamente mediante el endpoint `login`. Al haber importado la colección, ya deberíamos tener los datos del usuario base por defecto, que son los siguientes:
+
+- Email: test@test.com
+- Contraseña: 123456
+
+En caso de no tener los datos del usuario base ya establecidos, puedes incluirlos en formato json:
+
+```json
+{
+    "email": "test@test.com",
+    "password": "123456"
+}
+```
+
+<br>
+
+Desde el momento en el que ejecutamos el endpoint `login`, se generará un token de autenticación que se guardará en la variable de entorno global `api_token`, que se utilizará en todas las peticiones posteriores.
+
+De esta manera, **únicamente tendrás que preocuparte de probar los endpoints**.
+
+<br>
+
+### Explicación detallada de los endpoints
+
+#### Login
+- **Endpoint:** `/api/login`
+- **Método:** POST
+- **Descripción:** Autenticar usuario y obtener token de acceso
+- **Body:**
+```json
+  {
+    "email": "test@test.com",
+    "password": "123456"
+  }
+```
+
+Nos debería devolver:
+
+```json
+  {
+    "message": "Login successful",
+    "token": "1|abc123...",
+    "user": {...},
+    "status": 200
+  }
+```
+
+#### Logout
+
+- **Endpoint:** `/api/logout`
+- **Método:** POST
+- **Descripción:** Cerrar sesión y eliminar token de acceso
+- **Headers:** Authorization: Bearer {token}
+
+Nos debería devolver:
+
+```json
+  {
+    "message": "Logged out successfully",
+    "status": 200
+  }
+```
+
+#### Listar todos los usuarios
+
+- **Endpoint:**  `/api/users/`
+- **Método:** GET
+- **Descripción:** Listar todos los usuarios
+- **Headers:** Authorization: Bearer {token}
 
 
+#### Mostrar usuario específico
 
-### phpMyAdmin
+- **Endpoint:**  `/api/users/{id}`
+- **Método:** GET
+- **Descripción:** Obtener detalles de un usuario por ID
+- **Headers:** Authorization: Bearer {token}
+
+#### Crear usuario
+
+- **Endpoint:**  `/api/users`
+- **Método:** POST
+- **Descripción:** Crear un nuevo usuario
+- **Headers:** Authorization: Bearer {token}
+
+#### Actualizar usuario
+
+- **Endpoint:**  `/api/users/{id}`
+- **Método:** PUT
+- **Descripción:** Actualizar un usuario por ID
+- **Headers:** Authorization: Bearer {token}
+- **Body:**
+```json
+  {
+    "name": "Example Name",
+    "email": "example@example.com",
+    "password": "password"
+  }
+```
+
+#### Eliminar usuario
+
+- **Endpoint:**  `/api/users/{id}`
+- **Método:** DELETE
+- **Descripción:** Eliminar un usuario por ID
+- **Headers:** Authorization: Bearer {token}
+
+#### Análisis (Top 3 extensiones de dominio)
+
+- **Endpoint:**  `/api/users/domains/top`
+- **Método:** GET
+- **Descripción:** Obtener las 3 extensiones de dominio más usadas
+- **Headers:** Authorization: Bearer {token}
+- **Respuesta:** 
+```json
+  {
+    "gmail.com": 8,
+    "clicko.es": 5,
+    "outlook.es": 3
+  }
+```
+
+### Contenedor phpMyAdmin
 
 Para la gestión de la base de datos MySQL, podemos acceder a phpMyAdmin a través de la siguiente URL:
 
@@ -141,7 +283,7 @@ Las credenciales de uso serán las siguientes por defecto:
 - Usuario: root
 - Contraseña: password
 
-### MySQL
+### Contenedor MySQL
 
 De igual manera, podemos gestionar la base de datos a través del propio contenedor mediante el siguiente comando:
 
@@ -151,7 +293,23 @@ $ docker exec -it laravelmysql mysql -u root -p
 
 Recuerda utilizar la contraseña previamente configurada (en este caso, **password**)
 
+Aclarar que nuestra base de datos se guardará en la carpeta `db` del directorio raíz del proyecto.
+
 <br>
+
+### Contenedor Nginx
+
+El contenedor ya tiene configurado el servidor web Nginx en su última versión estable para que pueda servir la aplicación Laravel.
+
+De igual manera, puedes gestionar el archivo de configuración mediante el archivo `./.docker/nginx/app.conf`
+
+
+## Troubleshooting
+
+- Si el puerto 8080 está ocupado, puedes cambiar el puerto en docker-compose.yml y en el archivo app.conf de nginx.
+- Para reiniciar completamente: `docker-compose down && docker-compose up -d --build`
+- Los logs se pueden consultar con: `docker-compose logs [servicio]`
+
 
  
 
