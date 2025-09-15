@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Users from '../components/Users.vue';
+import Users from '../components/Users/Users.vue';
 import Login from '../components/Login.vue';
 import UsersList from '../components/Users/Userslist.vue';
 import UserEdit from '../components/Users/UserEdit.vue';
