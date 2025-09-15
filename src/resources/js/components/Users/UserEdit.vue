@@ -51,7 +51,7 @@
             </button>
             
             <router-link 
-              to="/users"
+              to="/userslist"
               class="text-blue-500 hover:text-blue-800"
             >
               Back to Users
@@ -105,12 +105,10 @@
           
           const data = {
             name: this.form.name,
-            email: this.form.email
+            email: this.form.email,
+            password: this.form.password
           };
           
-          if (this.form.password) {
-            data.password = this.form.password;
-          }
           
           await axios.put(`/api/users/${userId}`, data, {
             headers: { Authorization: `Bearer ${token}` }
