@@ -7,11 +7,9 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']); 
 
-Route::get('/test', function () {
-    return response()->json([
-        'message' => 'API funcionando correctamente',
-        'timestamp' => now(),
-        'status' => 'success'
-    ]);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('users', UserController::class);
 });
