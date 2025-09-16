@@ -106,8 +106,11 @@
           const data = {
             name: this.form.name,
             email: this.form.email,
-            password: this.form.password
           };
+
+          if (this.form.password && this.form.password.trim() !== '') {
+          data.password = this.form.password;
+          }
           
           
           await axios.put(`/api/users/${userId}`, data, {
@@ -116,10 +119,9 @@
           
           this.success = 'Ready!';
           
-          setTimeout(() => {
-            this.$router.push('/users');
-          }, 1000);
-          
+
+          this.$router.push('/userslist');
+
         } catch (error) {
           this.error = 'Cant update the user, check logs';
         }
