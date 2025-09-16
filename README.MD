@@ -125,7 +125,10 @@ De esta manera, nuestra aplicación, incluyendo el frontend, ya está listo para
 
 ### Explicación de la interfaz gráfica
 
-La interfaz gráfica es relativamente sencilla, donde en primer lugar necesitaremos iniciar sesión para generar el token correspondiente. 
+La interfaz gráfica es relativamente sencilla, donde en primer lugar necesitaremos iniciar sesión para generar el token correspondiente. Dichos datos son los siguientes:
+
+- Email: test@test.com
+- Contraseña: 123456
 
 Posteriormente, nos redireccionará al listado de usuarios, donde podremos ver todos los usuarios que se han creado previamente.
 
