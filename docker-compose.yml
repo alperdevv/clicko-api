@@ -35,6 +35,7 @@ services:
     volumes:
       - ./db:/var/lib/mysql
       - ./.docker/mysql/my.cnf:/etc/mysql/my.cnf
+      - ./.docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - laravelnetwork
 
