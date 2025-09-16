@@ -19,8 +19,7 @@ class UserController extends Controller
 
         return response()->json([
             'data' => $users,
-            'status' => 200
-        ]);
+        ], 200);
     }
 
     /**
@@ -34,8 +33,7 @@ class UserController extends Controller
         return response()->json([
         'message' => 'User created sucessfully',
         'data' => $user,
-        'status' => 201
-        ]);
+        ], 201);
 
     }
 
@@ -48,8 +46,7 @@ class UserController extends Controller
 
         return response()->json([
             'data' => $user,
-            'status' => 200
-        ]);
+        ], 200);
 
     }
 
@@ -73,8 +70,7 @@ class UserController extends Controller
         return response()->json([
             'message' => 'User updated successfully',
             'data' => $user,
-            'status' => 200
-        ]);
+        ], 200);
     }
 
     /**
@@ -87,7 +83,7 @@ class UserController extends Controller
 
         return response()->json([
             'message' => 'User deleted successfully',
-        ], 200);
+        ], 204);
     }
 
     public function topDomains()
