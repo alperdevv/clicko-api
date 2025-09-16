@@ -9,7 +9,7 @@ import Home from '../components/Home.vue';
 const routes = [
     { path: '/login', component: Login },
     { path: '/userslist', component: UsersList },
-    { path: '/', component: Home },
+    { path: '/', redirect: '/login' },
     { path: '/users/:id', component: UserShow },
     { path: '/users/:id/edit', component: UserEdit },
     { path: '/users/create', component: UserCreate },

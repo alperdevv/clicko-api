@@ -1,6 +1,15 @@
 <template>
     <div class="min-h-screen flex items-center justify-center bg-gray-50">
       <div class="max-w-md w-full space-y-8">
+
+        <div class="flex justify-center mb-6">
+          <img 
+            src="https://clicko.es/img/header.webp?version=2.7" 
+            alt="Clicko Logo" 
+            class="h-16 w-auto"
+          >
+        </div>
+        
         <div>
           <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Sign in to your account

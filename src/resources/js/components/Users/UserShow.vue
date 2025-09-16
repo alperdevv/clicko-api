@@ -208,7 +208,7 @@ export default {
                 });
 
                 this.cancelDelete();
-                this.$router.push("/users");
+                this.$router.push("/userslist");
             } catch (error) {
                 this.error =
                     error.response?.data?.message || "cant delete user";

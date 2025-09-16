@@ -87,9 +87,7 @@ class UserController extends Controller
 
         return response()->json([
             'message' => 'User deleted successfully',
-        ], 204);
-
-
+        ], 200);
     }
 
     public function topDomains()
