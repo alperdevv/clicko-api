@@ -98,10 +98,6 @@ $ docker exec -it laravelphp php artisan migrate
 
 <br>
 
-Con los pasos previamente realizados, el entorno de Laravel ya está listo para ser utilizado (http://localhost:8080)
-
-<br>
-
 ### Seeders
 
 Dentro del contenedor de PHP, ejecutamos los seeders:
@@ -123,7 +119,7 @@ $ docker exec -it laravelnode npm install
 $ docker exec -it laravelnode npm run build
 ```
 
-De esta manera, el frontend ya está listo para ser utilizado en el siguiente enlace (http://localhost:8080)
+De esta manera, nuestra aplicación, incluyendo el frontend, ya está listo para ser utilizado en el siguiente enlace (http://localhost:8080)
 
 <br>
 
@@ -147,6 +143,8 @@ Para facilitar el uso y el testing de la API, se proporcionan los siguientes arc
 Recuerda importar en Postman la colección mediante el archivo `postman/Clicko.postman_collection`, el entorno global mediante el archivo `postman/workspace.postman_globals.json` y el entorno de la API mediante el archivo `postman/LaravelAPI.postman_environment`.
 
 De esta manera, tendremos disponibles todas las variables de entorno necesarias, scripts y endpoints para interactuar con la API.
+
+**IMPORTANTE:** Es necesario seleccionar en postman el entorno `LaravelAPI` para que funcione correctamente (podrás encontrar esta opción en la parte superior en la aplicación de Postman)
 
 <br>
 
@@ -277,6 +275,19 @@ Nos debería devolver:
     "outlook.es": 3
   }
 ```
+
+### Testing
+
+#### Ejecutar Tests de API
+
+La base de datos para los tests ya se encuentra creada previamente (testing) y configurada, por lo que no necesitaremos hacer ningún cambio. Simplemente, ejecutar el siguiente comando:
+
+```bash
+$ docker exec -it laravelphp php artisan test --filter UserApiTest
+```
+
+De esta manera, podremos asegurarnos de que los métodos de la API estén funcionando correctamente.
+
 
 ### Contenedor phpMyAdmin
 

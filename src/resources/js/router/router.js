@@ -4,7 +4,6 @@ import UsersList from '../components/Users/Userslist.vue';
 import UserEdit from '../components/Users/UserEdit.vue';
 import UserCreate from '../components/Users/UserCreate.vue';
 import UserShow from '../components/Users/UserShow.vue';
-import Home from '../components/Home.vue';
 
 const routes = [
     { path: '/login', component: Login },
