@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 
 class UserController extends Controller
 {
@@ -24,22 +26,10 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        
-        request()->validate([
-            'name' => ['required', 'min:3', 'max:255'], 
-            'email' => ['required', 'email', 'unique:users,email', 'min:6', 'max:255'],
-            'password' => ['required', 'min:6', 'max:255'],
-        ]);
 
-        $user = User::create([
-            'name' => request('name'),
-            'email' => request('email'),
-            'role_id' => 2,
-            'password' => bcrypt(request('password')),
-        ]);
-
+        $user = User::create($request->getUserData());
 
         return response()->json([
         'message' => 'User created sucessfully',
@@ -66,17 +56,14 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateUserRequest $request, string $id)
     {
-        $request->validate([
-            'name' => ['required', 'min:3', 'max:255'], 
-            'email' => ['required', 'email', 'unique:users,email,'.$id, 'min:6', 'max:255'],
-            'password' => ['required', 'min:6', 'max:255'],
-        ]);
     
         $user = User::findOrFail($id);
-        
-        $data = $request->all();
+
+        $data = $request->validated();
+    
+
         if (isset($data['password'])) {
             $data['password'] = bcrypt($data['password']);
         }
