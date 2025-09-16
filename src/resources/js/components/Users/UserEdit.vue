@@ -38,7 +38,7 @@
               v-model="form.password"
               type="password" 
               class="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500"
-              placeholder="Dont change if want the same"
+              placeholder="Type the new password"
             >
           </div>
   
